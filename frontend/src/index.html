@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <title>sei la</title>
+</head>
+
+<body>
+    <py-script>
+        def obter_valor(*args, **keyArgs):
+            input_task = document.select_one('#textbox')
+            valor = input_task.value
+            resultado = document.select_one('#resultado')
+            resultado.textContent = valor
+    </py-script>
+
+    <div class="bg-image"></div>
+
+    <div class="container">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Sobre</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="conteudo">
+            <h1 class="titulo">Nome da aplicação</h1>
+            <form>
+                <label for="textbox">Digite um valor:</label>
+                <input class="campoTexto" type="text" id="textbox" name="textbox">
+                <button class="botaoEnviar" type="submit" pys-onClick="obter_valor">Enviar</button>
+            </form>
+            <p id="resultado"></p>
+        </div>
+
+        <footer>
+            <!-- Rodapé aqui -->
+        </footer>
+    </div>
+</body>
+
+</html>
