@@ -5,20 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="index.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
     <title>Trabalho IA</title>
 </head>
 
 <body>
-    <py-script>
-        def obter_valor(*args, **keyArgs):
-            input_task = document.select_one('#textbox')
-            valor = input_task.value
-            resultado = document.select_one('#resultado')
-            resultado.textContent = valor
-    </py-script>
-
     <div class="bg-image"></div>
 
     <main class="container">
@@ -33,17 +26,16 @@
 
         <div class="conteudo">
             <h1 class="titulo">Nome da aplicação</h1>
-            <form>
-                <label for="textbox">Digite um valor:</label>
-                <input class="campoTexto" type="text" id="textbox" name="textbox">
-                <button class="botaoEnviar" type="submit" pys-onClick="obter_valor">Enviar</button>
-            </form>
+            <label for="textbox">Digite um valor:</label>
+            <input id="campoTexto" type="text" id="textbox" name="textbox">
+            <button id="botaoEnviar" py-click="obter_valor()">Enviar</button>
             <p id="resultado"></p>
         </div>
     </main>
     <footer id="rodape" class="text-center">
         &copy; Copyright 2023 - by Any, Gabriel, Gustavo, Rafael e Valmir
     </footer>
+    <py-script src="index.py"></py-script>
 </body>
 
 </html>
