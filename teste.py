@@ -1,8 +1,8 @@
-from probability import BayesNet, DecisionNetwork, enumeration_ask ,InformationGatheringAgent
+from probability import BayesNet, DecisionNetwork, enumeration_ask ,InformationGatheringAgent,elimination_ask
 
-# Definir as constantes T e F para True e False, respectivamente
-T = True
-F = False
+
+T = bool(True)
+F = bool(False)
 
 class DecisionNetworkHealth(DecisionNetwork):
    def __init__(self, action, infer, Nodes):
@@ -13,49 +13,60 @@ class DecisionNetworkHealth(DecisionNetwork):
         
     
    def get_utility(self, action, state):
-     print(state)
-     if action == "TakeAspirin" and state.get('Reaction1', False):
-        return -50
-     elif state.get('FeverLater', False) and state.get('Reaction', False):
-        return -50
-     elif state.get('FeverLater', False):
-        return -10
-     elif state.get('Reaction', False):
-        return -30
-     else:
-        return 50
+      if(action  and state):
+         return -50
+      elif(action):
+         return -10
+      elif(state):
+         return -30
+      else:
+         return 50
+         
     
    def best_action(self,evidence):
         
-        bestAction =('',0)
+        bestAction = ('', float('-inf'))
+        list = [True,False]
         
-        for action in self.action[2]:
-              score = self.get_expected_utility(action,evidence)
-              if(score> bestAction[1]):
-                    bestAction = (action,score)
+        
+        for action in list:
+         evidence1 ={'TakeAspirin':action}
+         evidence1.update(evidence)
+         
+         u =0.0
+         if('Reaction' not in evidence):
+            probR = self.infer('Reaction', evidence1, self).prob
+            
+         probF = self.infer('FeverLater', evidence1, self).prob
+         
+         
+         for itemF in probF:
+            if('Reaction' not in evidence):
+               for itemR in probR: 
+                  u += probR[itemR] *probF[itemF] * self.get_utility(itemF,itemR)
+           
+            else:
+               u += probF[itemF] * self.get_utility(itemF,evidence['Reaction'])
                
-        return bestAction[0]
+         
+         
+         if(u > bestAction[1]):
+            bestAction = (action,u)
+
+        return 'TakeAspirin' if bestAction[0] else 'NoTakeAspirin'
   
    def get_expected_utility(self, action, evidence):
         """Compute the expected utility given an action and evidence"""
         u = 0.0
-        # print(action,evidence)
+
+        
         prob_dist = self.infer(action, evidence, self).prob
-        print(prob_dist)
         for item, _ in prob_dist.items():
-              print(item)
               u += prob_dist[item] * self.get_utility(action, item)
 
         return u
 
 
-class AgentNetwork(InformationGatheringAgent):
-    def __init__(self, decnet, infer, initial_evidence=None):
-        super().__init__(decnet, infer, initial_evidence)
-        
-    def integrate_percept(self, percept):
-        self.observation.append(percept)
-        return self.observation
 
 # Evidence 
 
@@ -63,7 +74,7 @@ Flu = ('Flu', [], 0.05)
 
 Fever = ('Fever', ['Flu'], {T: 0.95, F: 0.02})
 
-Therm = ('Therm', ['Fever'], {T: 0.95, F: 0.02})
+Therm = ('Therm', ['Fever'], {T: 0.90, F: 0.05})
 
 FeverLater = ('FeverLater', ['Fever', 'TakeAspirin'], {
     (T, T): 0.05,
@@ -71,29 +82,31 @@ FeverLater = ('FeverLater', ['Fever', 'TakeAspirin'], {
     (F, T): 0.01,
     (F, F): 0.02,
 })
-Reaction = ('Reaction', 'TakeAspirin', {T: 0.05, F: 0.0})
+
+Reaction = ('Reaction', 'TakeAspirin', {(T,): 0.05, (F,): 0.00})
 
 
 #action
 
-TakeAspirin = ('TakeAspirin', ['Therm'], {})
+TakeAspirin = ('TakeAspirin', ['Therm'], {(True):0.1 ,(False): 0.1})
 
 # Decision
-Actions = ('Action', [], ['TakeAspirin', 'DoNotTakeAspirin'])
+Actions = ('Action', [], ['TakeAspirin' ,"NoTakeAspirin"])
 
 #utilidade
-Utilidade = ('Utilidade',['FeverLater','Reaction'], {})
+Utilidade = ('Utilidade', ['FeverLater', 'Reaction'], {})
 
 # rede 
 nodes =[Flu,Fever,Therm,TakeAspirin,FeverLater,Reaction]
 
 redeModestia = DecisionNetworkHealth(Actions, enumeration_ask, nodes)
-print(redeModestia)
 
-evidence = {'Fever': True, 'Therm': True}
-action = 'TakeAspirin'
 
-AgenteRede = AgentNetwork (redeModestia,enumeration_ask,{})
-# print(AgenteRede)
+evidence = {}
+action = 'FeverLater'
 
-# print(AgenteRede.execute(evidence))
+# print(redeModestia.get_expected_utility(action,evidence))
+print(redeModestia.best_action(evidence))
+
+# print(enumeration_ask(action,evidence,redeModestia).prob)
+
