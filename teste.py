@@ -26,19 +26,24 @@ class DecisionNetworkHealth(DecisionNetwork):
    def best_action(self,evidence):
         
         bestAction = ('', float('-inf'))
+        
+        
         list = [True,False]
-        
-        
         for action in list:
          evidence1 ={'TakeAspirin':action}
          evidence1.update(evidence)
          
          u =0.0
          if('Reaction' not in evidence):
-            probR = self.infer('Reaction', evidence1, self).prob
-            
-         probF = self.infer('FeverLater', evidence1, self).prob
+            try:
+               probR = self.infer('Reaction', evidence1, self).prob   
+            except:
+               probR ={True:0 ,False:0} 
          
+         try:
+            probF = self.infer('FeverLater', evidence1, self).prob
+         except:
+            probF ={True:0 ,False:0} 
          
          for itemF in probF:
             if('Reaction' not in evidence):
@@ -48,23 +53,14 @@ class DecisionNetworkHealth(DecisionNetwork):
             else:
                u += probF[itemF] * self.get_utility(itemF,evidence['Reaction'])
                
-         
+         print(action,u)
          
          if(u > bestAction[1]):
             bestAction = (action,u)
 
         return 'TakeAspirin' if bestAction[0] else 'NoTakeAspirin'
   
-   def get_expected_utility(self, action, evidence):
-        """Compute the expected utility given an action and evidence"""
-        u = 0.0
 
-        
-        prob_dist = self.infer(action, evidence, self).prob
-        for item, _ in prob_dist.items():
-              u += prob_dist[item] * self.get_utility(action, item)
-
-        return u
 
 
 
@@ -103,8 +99,15 @@ redeModestia = DecisionNetworkHealth(Actions, enumeration_ask, nodes)
 
 
 evidence = {}
-action = 'FeverLater'
 
+lista =input("Digite as evidencias\n")
+
+for dado in lista.split(','):
+   valor = dado.split(':')
+evidence[str(valor[0])] = True if valor[1].lower() == "true" else False
+   
+   
+# print(evidence)
 # print(redeModestia.get_expected_utility(action,evidence))
 print(redeModestia.best_action(evidence))
 
