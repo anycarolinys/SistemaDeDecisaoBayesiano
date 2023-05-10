@@ -9,16 +9,14 @@ Projeto de IA com sistema de decisão bayesiano.
 * RAFAEL VINICIUS SOUSA
 * VALMIR VINICIUS DA CUNHA REZENDE 
 
+### Link de acesso
+
+- https://aspirinai.netlify.app
+
 ### Linguagens e Ferramentas
 
 * Linguagem: Python
-* Framework: Django e Django reste framework
-
-
-### 📋 Pré-requisitos
-
-Para instalação do software é necessário:
-* Python 3.10
+* Framework: Flask, Html, CSS, Pyodide e Pyscript.
 
 ### 🔧 Instalação
 
