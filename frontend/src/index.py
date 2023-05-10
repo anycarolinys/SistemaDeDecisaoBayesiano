@@ -1,10 +1,6 @@
 import random
 import sys
-sys.path.append('/')
 
-import 
-
-rede = decision.DecisionNetworkHealth()
 
 botao = Element("botaoEnviar")
 campoSaida = Element("resultado")
@@ -15,4 +11,3 @@ def obter_valor():
     campoSaida.write(valor)
 
 botao.element.onkeypress = obter_valor
-
