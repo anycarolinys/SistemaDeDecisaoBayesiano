@@ -9,6 +9,7 @@
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <script defer src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
     <title>Trabalho IA</title>
+
 </head>
 
 <body>
@@ -24,34 +25,42 @@
         </header>
 
         <div class="conteudo">
-            <h1 class="titulo">Asspirona: tome-a ou deixe-a</h1>
+            <h1 class="titulo">Aspirina: tome-a ou deixe-a</h1>
             <div>
                 <label> Está com febre? </label>
-                <label><input type="radio" id="febreTrue" name="grupoFebre" value="True" /> Sim</label>
-                <label><input type="radio" id="febreFalse" name="grupoFebre" value="False" /> Não</label>
+                <label><input type="radio" id="febre" name="grupoFebre" value="True" /> Sim</label>
+                <label><input type="radio" id="febre" name="grupoFebre" value="False"   /> Não</label>
+                <label><input type="radio" id="febre" name="grupoFebre" value="None"  checked  /> Indiferente</label>
             </div>
             <div>
                 <label> O termômetro utilizado, é confiável? </label>
-                <label><input type="radio" id="termometroTrue" name="grupoFebre" value="True" /> Sim</label>
-                <label><input type="radio" id="termometroFalse" name="grupoFebre" value="False" /> Não</label>
+                <label><input type="radio" id="termometro" name="grupotermometro" value="True" /> Sim</label>
+                <label><input type="radio" id="termometro" name="grupotermometro" value="False" /> Não</label>
+                <label><input type="radio" id="termometro" name="grupotermometro" value="None"  checked  /> Indiferente</label>
             </div>
             <div>
                 <label> Possui alergia a Aspirina? </label>
-                <label><input type="radio" id="aspirinaTrue" name="grupoFebre" value="True" /> Sim</label>
-                <label><input type="radio" id="aspirinaFalse" name="grupoFebre" value="False" /> Não</label>
+                <label><input type="radio" id="aspirina" name="grupoaspirina" value="True" /> Sim</label>
+                <label><input type="radio" id="aspirina" name="grupoaspirina" value="False" /> Não</label>
+                <label><input type="radio" id="aspirina" name="grupoaspirina" value="None" checked  /> Indiferente</label>
             </div>
             <div style="text-align: center; margin-top: 10px;">
                 <button id="botaoEnviar" py-click="obter_valor()">Enviar</button>
             </div>
-            <div style="text-align: center; margin-top: 20px;" >
+            <div style="text-align: center; margin-top: 20px;">
                 <label> Resultado: </label>
-                <input id="responsaAspirina" type="text" readonly>
+                <p id="respostaAspirina"> </p>
             </div>
         </div>
     </main>
     <footer id="rodape" class="text-center">
         &copy; Copyright 2023 - by Any, Gabriel, Gustavo, Rafael e Valmir
     </footer>
+    <py-config type = "toml">
+        packages = ["numpy"]
+        [[fetch]]
+        files = ["./decision.py","./probability.py","agents.py","utils.py"]
+    </py-config>
     <py-script src="index.py"></py-script>
 </body>
 
