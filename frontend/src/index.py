@@ -1,10 +1,10 @@
 import random
-import sys
-sys.path.append('/')
+# import sys
+# sys.path.append('/')
 
-import 
+# # import 
 
-rede = decision.DecisionNetworkHealth()
+# rede = decision.DecisionNetworkHealth()
 
 botao = Element("botaoEnviar")
 campoSaida = Element("resultado")
