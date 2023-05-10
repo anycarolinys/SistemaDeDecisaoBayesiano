@@ -11,7 +11,7 @@ Projeto de IA com sistema de decisão bayesiano.
 
 ### Link de acesso
 
-- https://aspirinai.netlify.app
+- (https://aspirinai.netlify.app/)
 
 ### Linguagens e Ferramentas
 
