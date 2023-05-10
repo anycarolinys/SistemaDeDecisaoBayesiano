@@ -1,6 +1,10 @@
 import random
+import sys
+sys.path.append('/')
 
-from ....SistemaDeDecisaoBayesiano.backend.decision import DecisionNetwork
+import 
+
+rede = decision.DecisionNetworkHealth()
 
 botao = Element("botaoEnviar")
 campoSaida = Element("resultado")
