@@ -1,4 +1,7 @@
 import random
+
+from ....SistemaDeDecisaoBayesiano.backend.decision import DecisionNetwork
+
 botao = Element("botaoEnviar")
 campoSaida = Element("resultado")
 campoEntrada = Element("campoTexto")

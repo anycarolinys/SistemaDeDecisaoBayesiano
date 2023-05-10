@@ -5,12 +5,41 @@ T = bool(True)
 F = bool(False)
 
 class DecisionNetworkHealth(DecisionNetwork):
-   def __init__(self, action, infer, Nodes):
-        super().__init__(action, infer)
+   def __init__(self):
+      
+        Actions = ('Action', [], ['TakeAspirin' ,"NoTakeAspirin"])
+        super().__init__(Actions, enumeration_ask)
         
-        for node in Nodes:
+        for node in self.inicializarRede():
             super().add(node)
         
+   def inicializarRede(self):
+      
+         Flu = ('Flu', [], 0.05)
+
+         Fever = ('Fever', ['Flu'], {T: 0.95, F: 0.02})
+
+         Therm = ('Therm', ['Fever'], {T: 0.90, F: 0.05})
+
+         FeverLater = ('FeverLater', ['Fever', 'TakeAspirin'], {
+            (T, T): 0.05,
+            (T, F): 0.90,
+            (F, T): 0.01,
+            (F, F): 0.02,
+         })
+
+         Reaction = ('Reaction', 'TakeAspirin', {(T,): 0.05, (F,): 0.00})
+
+
+         #action
+
+         TakeAspirin = ('TakeAspirin', ['Therm'], {(True):0.1 ,(False): 0.1})
+   
+         # rede 
+         nodes =[Flu,Fever,Therm,TakeAspirin,FeverLater,Reaction]
+         
+         return nodes
+
     
    def get_utility(self, action, state):
       if(action  and state):
@@ -60,53 +89,24 @@ class DecisionNetworkHealth(DecisionNetwork):
 
         return 'TakeAspirin' if bestAction[0] else 'NoTakeAspirin'
   
+   def getEvidencia(self):
+      evidence = {}
 
+      lista =input("Digite as evidencias\n")
 
-
-
-# Evidence 
-
-Flu = ('Flu', [], 0.05)
-
-Fever = ('Fever', ['Flu'], {T: 0.95, F: 0.02})
-
-Therm = ('Therm', ['Fever'], {T: 0.90, F: 0.05})
-
-FeverLater = ('FeverLater', ['Fever', 'TakeAspirin'], {
-    (T, T): 0.05,
-    (T, F): 0.90,
-    (F, T): 0.01,
-    (F, F): 0.02,
-})
-
-Reaction = ('Reaction', 'TakeAspirin', {(T,): 0.05, (F,): 0.00})
-
-
-#action
-
-TakeAspirin = ('TakeAspirin', ['Therm'], {(True):0.1 ,(False): 0.1})
-
-# Decision
-Actions = ('Action', [], ['TakeAspirin' ,"NoTakeAspirin"])
-
-#utilidade
-Utilidade = ('Utilidade', ['FeverLater', 'Reaction'], {})
-
-# rede 
-nodes =[Flu,Fever,Therm,TakeAspirin,FeverLater,Reaction]
-
-redeModestia = DecisionNetworkHealth(Actions, enumeration_ask, nodes)
-
-
-evidence = {}
-
-lista =input("Digite as evidencias\n")
-
-if(lista.count != 0):
-   for dado in lista.split(','):
-      valor = dado.split(':')
-   evidence[str(valor[0])] = True if valor[1].lower() == "true" else False
+      if(lista.count != 0):
+         for dado in lista.split(','):
+            valor = dado.split(':')
+            evidence[str(valor[0])] = True if valor[1].lower() == "true" else False
+            
+      return evidence
    
+  
+
+redeModestia = DecisionNetworkHealth()
+
+
+
    
-print(redeModestia.best_action(evidence))
+print(redeModestia.best_action(redeModestia.getEvidencia()))
 
