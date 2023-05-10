@@ -1,5 +1,8 @@
 import random
 import sys
+sys.path.append('/')
+
+import 
 
 
 botao = Element("botaoEnviar")

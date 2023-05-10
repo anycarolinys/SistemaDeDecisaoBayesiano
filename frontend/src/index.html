@@ -18,18 +18,35 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Sobre</a></li>
+                    <li><a href="/frontend/src/index.html   ">Asspirona</a></li>
                 </ul>
             </nav>
         </header>
 
         <div class="conteudo">
-            <h1 class="titulo">Nome da aplicação</h1>
-            <label for="textbox">Digite um valor:</label>
-            <input id="campoTexto" type="text" id="textbox" name="textbox">
-            <button id="botaoEnviar" py-click="obter_valor()">Enviar</button>
-            <p id="resultado"></p>
+            <h1 class="titulo">Asspirona: tome-a ou deixe-a</h1>
+            <div>
+                <label> Está com febre? </label>
+                <label><input type="radio" id="febreTrue" name="grupoFebre" value="True" /> Sim</label>
+                <label><input type="radio" id="febreFalse" name="grupoFebre" value="False" /> Não</label>
+            </div>
+            <div>
+                <label> O termômetro utilizado, é confiável? </label>
+                <label><input type="radio" id="termometroTrue" name="grupoFebre" value="True" /> Sim</label>
+                <label><input type="radio" id="termometroFalse" name="grupoFebre" value="False" /> Não</label>
+            </div>
+            <div>
+                <label> Possui alergia a Aspirina? </label>
+                <label><input type="radio" id="aspirinaTrue" name="grupoFebre" value="True" /> Sim</label>
+                <label><input type="radio" id="aspirinaFalse" name="grupoFebre" value="False" /> Não</label>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button id="botaoEnviar" py-click="obter_valor()">Enviar</button>
+            </div>
+            <div style="text-align: center; margin-top: 20px;" >
+                <label> Resultado: </label>
+                <input id="responsaAspirina" type="text" readonly>
+            </div>
         </div>
     </main>
     <footer id="rodape" class="text-center">
